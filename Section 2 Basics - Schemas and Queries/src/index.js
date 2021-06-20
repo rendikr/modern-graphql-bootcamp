@@ -6,31 +6,43 @@ import { GraphQLServer } from 'graphql-yoga';
 // Type definitions
 const typeDefs = `
   type Query {
+    me: User!
+    post: Post!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    age: Int
+  }
+
+  type Post {
+    id: ID!
     title: String!
-    price: Float!
-    releaseYear: Int
-    rating: Float
-    inStock: Boolean!
+    body: String!
+    published: Boolean!
   }
 `
 
 // Resolvers
 const resolvers = {
   Query: {
-    title() {
-      return 'The War of Art'
+    me() {
+      return {
+        id: '123098',
+        name: 'Rendi',
+        email: 'rendi@example.com',
+        age: null
+      }
     },
-    price() {
-      return 12.99
-    },
-    releaseYear() {
-      return null
-    },
-    rating() {
-      return 5
-    },
-    inStock() {
-      return true
+    post() {
+      return {
+        id: '123999',
+        title: 'My New Post',
+        body: 'The Post Body',
+        published: true
+      }
     }
   }
 }
@@ -41,5 +53,5 @@ const server = new GraphQLServer({
 })
 
 server.start(() => {
-  console.log('The server is up!')
+  console.log('The server is up on http://localhost:4000')
 })
